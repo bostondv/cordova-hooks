@@ -8,9 +8,13 @@ These scripts take advantage of shell commands, so in order to run these, you mu
 
 `npm install -g shelljs`
 
+They also read information from your config.xml file and thus require [`xml2js`](https://github.com/Leonidas-from-XIV/node-xml2js) to run.
+
+`npm install -g xml2js`
+
 Installation
 ---
-Copy the files in their corresponding directories found under `.cordova/hooks` in your project root directory.
+Copy the files in their corresponding directories found under `hooks` in your project root directory.
 
 Usage
 ---

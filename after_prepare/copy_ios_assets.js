@@ -1,9 +1,15 @@
 #!/usr/bin/env node
+
+'use strict';
+
 var path = require( 'path' ),
     fs = require( 'fs' ),
     shell = require( 'shelljs' ),
     rootdir = process.argv[ 2 ],
-    config = require(rootdir + '/.cordova/config.json'),
+    xml2js = require('xml2js'),
+    parser = new xml2js.Parser(),
+    projectname,
+    config = rootdir + '/config.xml',
     iconroot = rootdir + '/assets/icon/ios',
     screenroot = rootdir + '/assets/screen/ios',
     iosroot = rootdir + '/platforms/ios';
@@ -16,14 +22,24 @@ catch( e ) {
     process.exit(0);
 }
 
-// incase there are any spaces in the projectname
-var projectname = config.name.replace(' ', '\\ ');
+fs.readFile(config, function(err, data) {
+    if (err) {
+        console.log( 'could not read config.xml' );
+        process.exit(0);
+    }
+    parser.parseString(data);
+});
 
-// for some reason, using shell.cp() would throw this error:
-// 'cp: copy File Sync: could not write to dest file (code=ENOENT)'
-shell.exec( 'cp -Rf ' + iconroot + '/*' + ' ' + iosroot + '/' + projectname + '/Resources/icons/' );
-shell.exec( 'cp -Rf ' + screenroot + '/*' + ' ' + iosroot + '/' + projectname + '/Resources/splash/' );
+parser.addListener('end', function(result) {
+    projectname = result.widget.name[0].replace(' ', '\\ ');
 
-console.log( 'Copied all ios assets.' );
+    // for some reason, using shell.cp() would throw this error:
+    // 'cp: copy File Sync: could not write to dest file (code=ENOENT)'
+    shell.exec( 'cp -Rf ' + iconroot + '/*' + ' ' + iosroot + '/' + projectname + '/Resources/icons/' );
+    shell.exec( 'cp -Rf ' + screenroot + '/*' + ' ' + iosroot + '/' + projectname + '/Resources/splash/' );
 
-process.exit(0);
+    console.log( 'Copied all ios assets.' );
+
+    process.exit(0);
+});
+

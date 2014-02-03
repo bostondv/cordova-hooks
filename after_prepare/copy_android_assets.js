@@ -3,7 +3,6 @@ var path = require( 'path' ),
     fs = require( 'fs' ),
     shell = require( 'shelljs' ),
     rootdir = process.argv[ 2 ],
-    config = require(rootdir + '/.cordova/config.json'),
     iconroot = rootdir + '/assets/icon/android',
     screenroot = rootdir + '/assets/screen/android',
     androidroot = rootdir + '/platforms/android';
