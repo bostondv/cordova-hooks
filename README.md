@@ -4,6 +4,8 @@ Warning:  These are the first iterations of the scripts.  They can definitely be
 
 Since you are using **cordova-cli**, this means you already have `node` and `npm` installed.
 
+Requires cordova@3.3.1-0.3.1 or higher.
+
 These scripts take advantage of shell commands, so in order to run these, you must install [`shelljs`](https://github.com/arturadib/shelljs):
 
 `npm install -g shelljs`
